@@ -1,101 +1,101 @@
 #!/bin/bash
 
-# Practica: Exploracion del Scheduler Real en Linux (Ubuntu 22.04)
-# Scheduler utilizado: CFS (Completely Fair Scheduler)
+# Ejercicio: Analisis del planificador del sistema en Linux (Ubuntu 22.04)
+# Planificador en uso: CFS (Completely Fair Scheduler)
 
-# INFORMACION DEL KERNEL
-echo "Los headers del kernel estan en /usr/src y la version del kernel de ubuntu 22.04 es:"
+# DATOS DEL KERNEL
+echo "Los encabezados del kernel se localizan en /usr/src y la version del kernel en Ubuntu 22.04 es:"
 uname -r
 echo
 
-# El kernel de Linux ya viene compilado dentro del sistema operativo.
-# Para poder analizar su codigo fuente en C, es necesario instalar el paquete linux-source.
+# El kernel de Linux ya se encuentra integrado y compilado en el sistema.
+# Para poder revisar su implementacion en lenguaje C, es necesario instalar el paquete linux-source.
 
-# DESCARGA DEL CODIGO FUENTE DEL KERNEL
+# OBTENCION DEL CODIGO FUENTE DEL KERNEL
 sudo apt install linux-source
-echo "El codigo fuente del Kernel de Linux ha sido descargado"
+echo "El codigo fuente del Kernel de Linux fue instalado correctamente"
 echo
 
-# El codigo fuente del kernel se descarga en el directorio /usr/src.
+# El codigo fuente del kernel se guarda dentro del directorio /usr/src.
 
-# CAMBIAR AL DIRECTORIO DEL KERNEL
+# ACCESO AL DIRECTORIO DEL KERNEL
 cd /usr/src/ || exit
 pwd
 echo
 
-# En este directorio podemos encontrar archivos comprimidos
-# que contienen el codigo fuente completo del kernel.
+# Dentro de este directorio se pueden observar archivos comprimidos
+# que incluyen el codigo fuente completo del kernel.
 
-# DESCOMPRESION DEL CODIGO FUENTE
-echo "Archivo a descomprimir: linux-source-5.15.0.tar.bz2"
+# EXTRACCION DEL CODIGO FUENTE
+echo "Archivo a extraer: linux-source-5.15.0.tar.bz2"
 sudo tar -xjf linux-source-5.15.0.tar.bz2
-echo "Archivo descomprimido"
+echo "Proceso de descompresion finalizado"
 echo
 
-# Una vez descomprimido, se crea una carpeta con el codigo
+# Al finalizar la descompresion, se genera una carpeta con el codigo
 # fuente completo del kernel Linux.
 
-# ENTRANDO AL CODIGO FUENTE
+# INGRESANDO AL CODIGO FUENTE
 cd linux-source-5.15.0 || exit
 pwd
 echo
 
-# Aqui se encuentra toda la implementacion del kernel,
-# incluyendo memoria, procesos, drivers y scheduling.
+# En este punto se encuentra toda la estructura del kernel,
+# incluyendo gestion de memoria, procesos, controladores y planificacion.
 
-# EXPLORANDO LA ESTRUCTURA DEL KERNEL
+# REVISION DE LA ESTRUCTURA DEL KERNEL
 ls
 echo
 
-# El scheduler pertenece al nucleo del sistema operativo,
-# por lo que se encuentra dentro del directorio kernel.
+# El scheduler forma parte del nucleo del sistema operativo,
+# por lo cual se localiza dentro del directorio kernel.
 
-# DIRECTORIO KERNEL
+# DIRECTORIO kernel
 cd kernel/ || exit
 pwd
 echo
 ls
 echo
 
-# Dentro del directorio kernel se encuentra el subsistema
-# encargado de la planificacion de procesos.
+# Dentro del directorio kernel se encuentra el modulo
+# responsable de la administracion y planificacion de procesos.
 
-# DIRECTORIO SCHED
+# DIRECTORIO sched
 cd sched/ || exit
 pwd
 echo
 ls
 echo
 
-# Este directorio contiene los archivos relacionados con
-# los distintos schedulers que soporta Linux.
+# Este directorio almacena los archivos relacionados con
+# los distintos algoritmos de planificacion soportados por Linux.
 
 # ARCHIVO core.c
 cat core.c
 echo
-echo "Este archivo contiene la base general del scheduler de Linux"
+echo "Este archivo contiene la estructura base del scheduler en Linux"
 echo
 
-# core.c define la infraestructura principal del scheduler.
-# Aqui se manejan las colas de procesos y la logica general
-# para seleccionar que proceso se ejecuta.
+# El archivo core.c define la infraestructura principal del planificador.
+# Aqui se controlan las colas de procesos y la logica general
+# para decidir que proceso entra en ejecucion.
 
 # ARCHIVO fair.c
 cat fair.c
 echo
-echo "Este archivo implementa el Completely Fair Scheduler (CFS)"
+echo "Este archivo implementa el planificador Completely Fair Scheduler (CFS)"
 echo
 
-# fair.c implementa el scheduler por defecto de Linux.
-# Utiliza el concepto de virtual runtime para repartir
-# el tiempo de CPU de manera justa entre los procesos.
+# El archivo fair.c implementa el scheduler predeterminado de Linux.
+# Emplea el concepto de tiempo virtual para distribuir
+# el uso del CPU de forma equitativa entre los procesos.
 
-# RELACION CON FCFS, SJF Y RR
-# FCFS ejecuta procesos en orden de llegada.
-# SJF requiere conocer el tiempo de ejecucion.
-# RR usa cuantums de tiempo fijos.
-# CFS usa tiempos virtuales y prioridades dinamicas.
+# COMPARACION CON FCFS, SJF Y RR
+# FCFS ejecuta los procesos segun su orden de llegada.
+# SJF necesita conocer previamente el tiempo de ejecucion.
+# RR utiliza intervalos de tiempo fijos llamados quantums.
+# CFS utiliza tiempos virtuales y prioridades adaptativas.
 
-# PREGUNTA OBLIGATORIA
-# Linux no implementa directamente FCFS, SJF o RR
-# porque no escalan bien en sistemas reales con muchos procesos.
+# Pregunta de reflexión
+# Linux no utiliza directamente FCFS, SJF o RR
+# ya que estos algoritmos no son eficientes en sistemas reales con alta carga de procesos.
