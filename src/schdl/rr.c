@@ -10,6 +10,44 @@ void rr_schedule(Process p[], int n, int quantum)
     (void)n;
     (void)quantum;
     /* TODO: Implement RR scheduling algorithm here */
+    int time = 0;          
+    int completed = 0;     // numero de procesos finalizados
+    int executed;          // saber si se ejecuto alguno
+
+    while (completed < n) {
+        executed = 0;
+
+        for (int i = 0; i < n; i++) {S
+
+            // Verificar si el proceso ya llego y no aun no termina
+            if (p[i].arrival_time <= time && p[i].remaining_time > 0) {
+                executed = 1;
+
+                // Determinar cuanto tiempo se ejecuta
+                int exec_time = (p[i].remaining_time > quantum)
+                                ? quantum
+                                : p[i].remaining_time;
+
+                time += exec_time;
+                p[i].remaining_time -= exec_time;
+
+                // Si el proceso termina
+                if (p[i].remaining_time == 0) {
+                    p[i].completed = 1;
+                    completed++;
+
+                    p[i].turnaround_time = time - p[i].arrival_time;
+                    p[i].waiting_time =
+                        p[i].turnaround_time - p[i].burst_time;
+                }
+            }
+        }
+
+        // Si ningun proceso se ejecuto, avanza el tiempo
+        if (!executed) {
+            time++;
+        }
+    }
 }
 
 /* ============================================================

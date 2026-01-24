@@ -6,9 +6,47 @@
  * ============================================================ */
 void sjf_schedule(Process p[], int n)
 {
-    (void)p;
-    (void)n;
-    /* TODO: Implement SJF scheduling algorithm here */
+    int time = 0;
+    int completed = 0;
+    Process result[n];   // para guardar el orden de ejecucion
+    int k = 0;
+
+    while (completed < n) {
+        int id = -1;
+        int min_bt = 1e9;
+
+        // Buscar un proceso disponible con menor burst_time
+        for (int i = 0; i < n; i++) {
+            if (!p[i].completed &&
+                p[i].arrival_time <= time &&
+                p[i].burst_time < min_bt) {
+
+                min_bt = p[i].burst_time;
+                id = i;
+            }
+        }
+
+        // Si no hay procesos listos, avanzar el tiempo
+        if (id == -1) {
+            time++;
+            continue;
+        }
+
+        // Calcular tiempos
+        p[id].waiting_time = time - p[id].arrival_time;
+        time += p[id].burst_time;
+        p[id].turnaround_time = time - p[id].arrival_time;
+        p[id].completed = 1;
+
+        // Guardar en orden de ejecucion
+        result[k++] = p[id];
+        completed++;
+    }
+
+    // Copiar el orden correcto de regreso a la funcion p[]
+    for (int i = 0; i < n; i++) {
+        p[i] = result[i];
+    }
 }
 
 /* ============================================================
@@ -25,35 +63,8 @@ int main(void)
     read_processes(p, n);
     init_processes(p, n);
 
-<<<<<<< HEAD
-    // TODO: Aquí va la lógica del scheduler
-
-    int time = 0;
-        // FCFS: ejecutar en orden de llegada
-    for (int i = 0; i < n; i++) {
-        if (time < p[i].arrival_time) {
-            // Si el CPU está ocioso, avanzar hasta la llegada del proceso
-            time = p[i].arrival_time;
-        }
-
-        // Mostrar estado antes de ejecutar
-        printf("Tiempo %d: Ejecutando P%d (BT=%d)\n",
-               time, p[i].id, p[i].burst_time);
-
-        // Calcular tiempos
-        p[i].waiting_time = time - p[i].arrival_time;
-        time += p[i].burst_time;
-        p[i].turnaround_time = p[i].waiting_time + p[i].burst_time;
-        p[i].completed = 1;
-
-        // Mostrar estado después de ejecutar
-        printf("   -> P%d terminó en tiempo %d\n", p[i].id, time);
-    } 
-    
-=======
     sjf_schedule(p, n);
 
->>>>>>> e295d968ed0cea49e0d03f3c31992a399f5359b8
     print_results(p, n, "SJF Scheduling");
     return 0;
 }
