@@ -17,7 +17,7 @@ void rr_schedule(Process p[], int n, int quantum)
     while (completed < n) {
         executed = 0;
 
-        for (int i = 0; i < n; i++) {S
+        for (int i = 0; i < n; i++) {
 
             // Verificar si el proceso ya llego y no aun no termina
             if (p[i].arrival_time <= time && p[i].remaining_time > 0) {
